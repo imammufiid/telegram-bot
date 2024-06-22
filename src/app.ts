@@ -12,7 +12,7 @@ app.get('/ping', (_req: Request, res: Response) => {
   return res.send('pong 🏓')
 })
 
-app.get('/start', (_req: Request, res: Response) => {
+app.get('/start', async (_req: Request, res: Response) => {
   /*telegram()
     .then(() => {
       return res.send("Starting telegram bot")
@@ -20,6 +20,8 @@ app.get('/start', (_req: Request, res: Response) => {
     .catch((e) => {
       return res.send(`Failed start telegram bot ${e}`)
     })*/
+  await telegram()
+  return res.send("Starting telegram bot")
 })
 
 app.listen(port, () => {
