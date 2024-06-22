@@ -12,11 +12,17 @@ app.get('/ping', (_req: Request, res: Response) => {
   return res.send('pong 🏓')
 })
 
+app.get('/start', (_req: Request, res: Response) => {
+  Telegram()
+    .then(() => {
+      return res.send("Starting telegram bot")
+    })
+    .catch((e) => {
+      return res.send(`Failed start telegram bot ${e}`)
+    })
+})
+
 app.listen(port, () => {
   return console.log(`Server is listening on ${port}`)
 })
 
-Telegram()
-  .then(() => {
-    console.info("Starting telegram bot")
-  })

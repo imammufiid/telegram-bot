@@ -13,11 +13,16 @@ app.get('/', (_req, res) => {
 app.get('/ping', (_req, res) => {
     return res.send('pong 🏓');
 });
+app.get('/start', (_req, res) => {
+    (0, telegram_1.Telegram)()
+        .then(() => {
+        return res.send("Starting telegram bot");
+    })
+        .catch((e) => {
+        return res.send(`Failed start telegram bot ${e}`);
+    });
+});
 app.listen(port, () => {
     return console.log(`Server is listening on ${port}`);
-});
-(0, telegram_1.Telegram)()
-    .then(() => {
-    console.info("Starting telegram bot");
 });
 //# sourceMappingURL=app.js.map
