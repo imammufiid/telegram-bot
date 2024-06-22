@@ -31,6 +31,7 @@ const telegram = () => __awaiter(void 0, void 0, void 0, function* () {
      * Setting up callback "/start" from telegram
      */
     bot.onText(constants_1.keyword.start, (data) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Start conversation");
         yield bot.sendMessage(data.chat.id, "Welcome to my Bot", {
             parse_mode: 'HTML',
             reply_markup: { remove_keyboard: true },
@@ -40,20 +41,23 @@ const telegram = () => __awaiter(void 0, void 0, void 0, function* () {
      * Setting up callback "/bgremove" from telegram
      */
     bot.onText(constants_1.keyword.bgremove, (data) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("Start to background remover");
         isBgRemover = true;
         yield bot.sendMessage(data.chat.id, 'Please upload your image');
     }));
     bot.on("photo", (data) => __awaiter(void 0, void 0, void 0, function* () {
         if (isBgRemover) {
+            console.log("Start background remove");
             const pleaseWaitMessage = yield bot.sendMessage(data.chat.id, 'Please wait...');
             const photo = data.photo[data.photo.length - 1];
             const fileId = photo.file_id;
             const fileStream = bot.getFileStream(fileId);
             const chatId = data.chat.id;
             try {
-                //await imgLy(fileId, fileStream)
                 yield (0, removeBg_1.removeBg)(fileId, fileStream);
+                console.log("Start upload to cloud imgbb");
                 const uploadResponse = yield (0, uploader_1.uploader)(fileId);
+                console.log("Finish background remove");
                 yield bot.sendPhoto(chatId, uploadResponse.data, { caption: `Link download: ${uploadResponse.data}` });
             }
             catch (e) {

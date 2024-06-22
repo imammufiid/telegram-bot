@@ -20,6 +20,7 @@ export const telegram = async () => {
    * Setting up callback "/start" from telegram
    */
   bot.onText(keyword.start, async (data) => {
+    console.log("Start conversation")
     await bot.sendMessage(data.chat.id, "Welcome to my Bot", {
       parse_mode: 'HTML',
       reply_markup: {remove_keyboard: true},
@@ -30,12 +31,14 @@ export const telegram = async () => {
    * Setting up callback "/bgremove" from telegram
    */
   bot.onText(keyword.bgremove, async (data) => {
+    console.log("Start to background remover")
     isBgRemover = true
     await bot.sendMessage(data.chat.id, 'Please upload your image')
   })
 
   bot.on("photo", async (data) => {
     if (isBgRemover) {
+      console.log("Start background remove")
       const pleaseWaitMessage = await bot.sendMessage(data.chat.id, 'Please wait...')
       const photo = data.photo[data.photo.length - 1]
       const fileId = photo.file_id
@@ -44,9 +47,10 @@ export const telegram = async () => {
 
 
       try {
-        //await imgLy(fileId, fileStream)
         await removeBg(fileId, fileStream)
+        console.log("Start upload to cloud imgbb")
         const uploadResponse = await uploader(fileId)
+        console.log("Finish background remove")
         await bot.sendPhoto(chatId, uploadResponse.data, {caption: `Link download: ${uploadResponse.data}`})
       } catch (e) {
         await bot.sendMessage(chatId, e)
