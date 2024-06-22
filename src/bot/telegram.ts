@@ -3,7 +3,7 @@ import {BOT_TOKEN, commands, keyword} from "../constants";
 import {uploader} from "../imgbb/uploader";
 import {imgLy} from "../background-remover/imgly/imgLy"; // Node.js Buffer to Blob utility
 
-export const Telegram = async () => {
+export const telegram = async () => {
   let isBgRemover = false
   const options = {
     polling: true

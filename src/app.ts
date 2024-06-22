@@ -1,4 +1,4 @@
-import {Telegram} from "./bot/telegram";
+import {telegram} from "./bot/telegram";
 import express, { Request, Response } from 'express'
 
 const app = express()
@@ -13,7 +13,7 @@ app.get('/ping', (_req: Request, res: Response) => {
 })
 
 app.get('/start', (_req: Request, res: Response) => {
-  Telegram()
+  telegram()
     .then(() => {
       return res.send("Starting telegram bot")
     })

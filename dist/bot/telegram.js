@@ -12,12 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Telegram = void 0;
+exports.telegram = void 0;
 const node_telegram_bot_api_1 = __importDefault(require("node-telegram-bot-api"));
 const constants_1 = require("../constants");
 const uploader_1 = require("../imgbb/uploader");
 const imgLy_1 = require("../background-remover/imgly/imgLy"); // Node.js Buffer to Blob utility
-const Telegram = () => __awaiter(void 0, void 0, void 0, function* () {
+const telegram = () => __awaiter(void 0, void 0, void 0, function* () {
     let isBgRemover = false;
     const options = {
         polling: true
@@ -66,5 +66,5 @@ const Telegram = () => __awaiter(void 0, void 0, void 0, function* () {
         }
     }));
 });
-exports.Telegram = Telegram;
+exports.telegram = telegram;
 //# sourceMappingURL=telegram.js.map

@@ -14,7 +14,7 @@ app.get('/ping', (_req, res) => {
     return res.send('pong 🏓');
 });
 app.get('/start', (_req, res) => {
-    (0, telegram_1.Telegram)()
+    (0, telegram_1.telegram)()
         .then(() => {
         return res.send("Starting telegram bot");
     })
