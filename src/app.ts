@@ -1,10 +1,10 @@
 import {Telegram} from "./bot/telegram";
 import express, { Request, Response } from 'express'
 
-Telegram()
+/*Telegram()
   .then(() => {
     console.info("Starting telegram bot")
-  })
+  })*/
 
 
 const app = express()
