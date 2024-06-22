@@ -14,15 +14,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const telegram_1 = require("./bot/telegram");
 const express_1 = __importDefault(require("express"));
-const app = (0, express_1.default)();
+const index = (0, express_1.default)();
 const port = process.env.PORT || 8080;
-app.get('/', (_req, res) => {
+index.get('/', (_req, res) => {
     return res.send('Express Typescript on Vercel');
 });
-app.get('/ping', (_req, res) => {
+index.get('/ping', (_req, res) => {
     return res.send('pong 🏓');
 });
-app.get('/start', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+index.get('/start', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     /*telegram()
       .then(() => {
         return res.send("Starting telegram bot")
@@ -30,10 +30,11 @@ app.get('/start', (_req, res) => __awaiter(void 0, void 0, void 0, function* () 
       .catch((e) => {
         return res.send(`Failed start telegram bot ${e}`)
       })*/
-    yield (0, telegram_1.telegram)();
-    return res.send("Starting telegram bot");
 }));
-app.listen(port, () => {
+index.listen(port, () => {
     return console.log(`Server is listening on ${port}`);
 });
-//# sourceMappingURL=app.js.map
+(0, telegram_1.telegram)().then(() => {
+    console.log("Starting telegram bot");
+});
+//# sourceMappingURL=index.js.map

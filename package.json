@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "bot": "npx tsc && node dist/app.js",
-    "start": "nodemon src/app.ts",
+    "bot": "npx tsc && node dist/index.js",
+    "start": "nodemon src/index.ts",
     "build": "rimraf dist && tsc",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist"
