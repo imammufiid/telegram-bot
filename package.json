@@ -4,14 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "bot": "npx tsc && node dist/app.js"
+    "bot": "npx tsc && node dist/app.js",
+    "start": "nodemon src/app.ts",
+    "build": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist"
   },
+  "pre-commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.1",
     "@types/node-telegram-bot-api": "^0.64.6",
+    "nodemon": "^3.1.4",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^5.0.7",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
