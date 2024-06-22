@@ -1,3 +1,4 @@
+/*
 import removeBackground from "@imgly/background-removal-node";
 import {Readable} from "stream";
 import fs from "node:fs";
@@ -41,4 +42,4 @@ export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverRe
       reject('Failed to remove bg using img.ly')
     }
   })
-}
+}*/

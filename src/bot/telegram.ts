@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import {BOT_TOKEN, commands, keyword} from "../constants";
 import {uploader} from "../imgbb/uploader";
-import {imgLy} from "../background-remover/imgly/imgLy"; // Node.js Buffer to Blob utility
+import {removeBg} from "../background-remover/removebg/removeBg"; // Node.js Buffer to Blob utility
 
 export const telegram = async () => {
   let isBgRemover = false
@@ -44,8 +44,8 @@ export const telegram = async () => {
 
 
       try {
-        await imgLy(fileId, fileStream)
-        //await removeBg(fileId, fileStream)
+        //await imgLy(fileId, fileStream)
+        await removeBg(fileId, fileStream)
         const uploadResponse = await uploader(fileId)
         await bot.sendPhoto(chatId, uploadResponse.data, {caption: `Link download: ${uploadResponse.data}`})
       } catch (e) {
