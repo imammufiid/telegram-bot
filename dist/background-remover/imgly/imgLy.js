@@ -20,9 +20,7 @@ const imgLy = (fileId, fileStream) => {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const filePath = node_path_1.default.resolve(__dirname, '../../../outputs/temp', `${fileId}.jpg`);
-            // Create a write stream
             const writeStream = node_fs_1.default.createWriteStream(filePath);
-            // Pipe the file stream into the write stream
             fileStream.pipe(writeStream);
             writeStream.on('finish', () => __awaiter(void 0, void 0, void 0, function* () {
                 const blob = yield (0, background_removal_node_1.default)(filePath);
@@ -30,6 +28,7 @@ const imgLy = (fileId, fileStream) => {
                 const dataURL = `data:image/png;base64,${buffer.toString("base64")}`;
                 node_fs_1.default.writeFile(`outputs/${fileId}.png`, dataURL.split(';base64,').pop(), { encoding: 'base64' }, (err) => {
                     if (err) {
+                        console.error('Failed saving file:', err);
                         reject('Failed to saving file.');
                         return;
                     }
