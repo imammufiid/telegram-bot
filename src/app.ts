@@ -13,13 +13,13 @@ app.get('/ping', (_req: Request, res: Response) => {
 })
 
 app.get('/start', (_req: Request, res: Response) => {
-  telegram()
+  /*telegram()
     .then(() => {
       return res.send("Starting telegram bot")
     })
     .catch((e) => {
       return res.send(`Failed start telegram bot ${e}`)
-    })
+    })*/
 })
 
 app.listen(port, () => {
