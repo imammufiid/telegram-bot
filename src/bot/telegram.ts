@@ -1,7 +1,8 @@
 import TelegramBot from "node-telegram-bot-api";
 import {BOT_TOKEN, commands, keyword} from "../constants";
 import {uploader} from "../imgbb/uploader";
-import {removeBg} from "../background-remover/removebg/removeBg"; // Node.js Buffer to Blob utility
+import {removeBg} from "../background-remover/removebg/removeBg";
+import {imgLy} from "../background-remover/imgly/imgLy"; // Node.js Buffer to Blob utility
 
 export const telegram = async () => {
   let isBgRemover = false
@@ -47,7 +48,8 @@ export const telegram = async () => {
 
 
       try {
-        await removeBg(fileId, fileStream)
+        await imgLy(fileId, fileStream)
+        /*await removeBg(fileId, fileStream)*/
         console.log("Start upload to cloud imgbb")
         const uploadResponse = await uploader(fileId)
         console.log("Finish background remove")

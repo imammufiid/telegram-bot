@@ -28,6 +28,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@imgly/background-removal-node": "^1.4.5",
     "axios": "^1.7.2",
     "buffer": "^6.0.3",
     "express": "^4.19.2",

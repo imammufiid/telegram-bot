@@ -16,7 +16,7 @@ exports.telegram = void 0;
 const node_telegram_bot_api_1 = __importDefault(require("node-telegram-bot-api"));
 const constants_1 = require("../constants");
 const uploader_1 = require("../imgbb/uploader");
-const removeBg_1 = require("../background-remover/removebg/removeBg"); // Node.js Buffer to Blob utility
+const imgLy_1 = require("../background-remover/imgly/imgLy"); // Node.js Buffer to Blob utility
 const telegram = () => __awaiter(void 0, void 0, void 0, function* () {
     let isBgRemover = false;
     const options = {
@@ -54,7 +54,8 @@ const telegram = () => __awaiter(void 0, void 0, void 0, function* () {
             const fileStream = bot.getFileStream(fileId);
             const chatId = data.chat.id;
             try {
-                yield (0, removeBg_1.removeBg)(fileId, fileStream);
+                yield (0, imgLy_1.imgLy)(fileId, fileStream);
+                /*await removeBg(fileId, fileStream)*/
                 console.log("Start upload to cloud imgbb");
                 const uploadResponse = yield (0, uploader_1.uploader)(fileId);
                 console.log("Finish background remove");
