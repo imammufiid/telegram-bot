@@ -24,6 +24,7 @@ export const removeBg = (fileId: string, fileStream: Readable): Promise<BgRemove
       .then(async (arrayBuffer) => {
         fs.writeFile(`outputs/${fileId}.png`, arrayBuffer, (err) => {
           if (err) {
+            console.error(err)
             reject('Failed to saving file.')
             return
           }

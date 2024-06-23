@@ -35,6 +35,7 @@ const removeBg = (fileId, fileStream) => {
             .then((arrayBuffer) => __awaiter(void 0, void 0, void 0, function* () {
             node_fs_1.default.writeFile(`outputs/${fileId}.png`, arrayBuffer, (err) => {
                 if (err) {
+                    console.error(err);
                     reject('Failed to saving file.');
                     return;
                 }
