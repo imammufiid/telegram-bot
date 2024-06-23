@@ -7,15 +7,24 @@ import {BgRemoverResponse} from "../bg-remover-response";
 export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverResponse> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const filePath = path.resolve(__dirname, '../../../outputs/temp', `${fileId}.jpg`);
-      const writeStream = fs.createWriteStream(filePath);
+      const outputDir = 'outputs/temp';
+      const fileTempPath = path.join(outputDir, `${fileId}.jpg`);
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
+      const writeStream = fs.createWriteStream(fileTempPath);
       fileStream.pipe(writeStream);
       writeStream.on('finish', async () => {
-        const blob = await removeBackground(filePath)
+        const blob = await removeBackground(fileTempPath)
         const buffer = Buffer.from(await blob.arrayBuffer());
         const dataURL = `data:image/png;base64,${buffer.toString("base64")}`;
+        const outputDir = 'outputs';
+        const filePath = path.join(outputDir, `${fileId}.png`);
+        if (!fs.existsSync(outputDir)) {
+          fs.mkdirSync(outputDir, { recursive: true });
+        }
         fs.writeFile(
-          `outputs/${fileId}.png`,
+          filePath,
           dataURL.split(';base64,').pop(),
           {encoding: 'base64'},
           (err) => {
