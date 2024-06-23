@@ -19,7 +19,7 @@ const node_path_1 = __importDefault(require("node:path"));
 const imgLy = (fileId, fileStream) => {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const outputDir = 'outputs/temp';
+            const outputDir = 'outputs';
             const fileTempPath = node_path_1.default.join(outputDir, `${fileId}.jpg`);
             if (!node_fs_1.default.existsSync(outputDir)) {
                 node_fs_1.default.mkdirSync(outputDir, { recursive: true });
@@ -30,11 +30,7 @@ const imgLy = (fileId, fileStream) => {
                 const blob = yield (0, background_removal_node_1.default)(fileTempPath);
                 const buffer = Buffer.from(yield blob.arrayBuffer());
                 const dataURL = `data:image/png;base64,${buffer.toString("base64")}`;
-                const outputDir = 'outputs';
                 const filePath = node_path_1.default.join(outputDir, `${fileId}.png`);
-                if (!node_fs_1.default.existsSync(outputDir)) {
-                    node_fs_1.default.mkdirSync(outputDir, { recursive: true });
-                }
                 node_fs_1.default.writeFile(filePath, dataURL.split(';base64,').pop(), { encoding: 'base64' }, (err) => {
                     if (err) {
                         console.error('Failed saving file:', err);
