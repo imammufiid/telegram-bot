@@ -57,13 +57,16 @@ const uploader = (fileId /*, callback: (success: boolean, message: string, data:
             };
             axios_1.default.post(`https://api.imgbb.com/1/upload`, `image=${encodeURIComponent(base64Image)}`, config)
                 .then((response) => {
-                const url = response.data.data.url.replace("https://i.ibb.co", "https://i.ibb.co.com");
+                const url = response.data.data.url;
+                const urlObject = new URL(url);
+                const baseUrl = urlObject.origin;
+                const modifiedUrl = url.replace(baseUrl, "https://i.ibb.co.com");
                 if (response.data.success) {
                     node_fs_1.default.unlinkSync(filePath);
                     resolve({
                         success: response.data.success,
                         message: 'Successfully to upload',
-                        data: url
+                        data: modifiedUrl
                     });
                 }
                 else {
