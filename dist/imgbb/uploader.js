@@ -57,6 +57,7 @@ const uploader = (fileId /*, callback: (success: boolean, message: string, data:
             };
             axios_1.default.post(`https://api.imgbb.com/1/upload`, `image=${encodeURIComponent(base64Image)}`, config)
                 .then((response) => {
+                console.log(response.data);
                 if (response.data.success) {
                     node_fs_1.default.unlinkSync(filePath);
                     resolve({

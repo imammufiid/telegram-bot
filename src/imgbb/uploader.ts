@@ -34,6 +34,7 @@ export const uploader = async (fileId: string/*, callback: (success: boolean, me
         config
       )
         .then((response) => {
+          console.log(response.data)
           if (response.data.success) {
             fs.unlinkSync(filePath);
             resolve({
