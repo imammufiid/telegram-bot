@@ -37,7 +37,7 @@ const imgLy = (fileId, fileStream) => {
                         reject('Failed to saving file.');
                         return;
                     }
-                    node_fs_1.default.unlinkSync(filePath);
+                    node_fs_1.default.unlinkSync(fileTempPath);
                     resolve({
                         success: true,
                         message: 'Background remover is successfully',

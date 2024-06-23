@@ -29,7 +29,7 @@ export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverRe
               reject('Failed to saving file.')
               return
             }
-            fs.unlinkSync(filePath)
+            fs.unlinkSync(fileTempPath)
             resolve({
               success: true,
               message: 'Background remover is successfully',
