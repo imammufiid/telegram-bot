@@ -4,6 +4,7 @@ import axios, {AxiosRequestConfig} from "axios";
 import fs from "node:fs";
 import {REMOVEBG_TOKEN} from "../../constants";
 import {BgRemoverResponse} from "../bg-remover-response";
+import * as path from "node:path";
 
 export const removeBg = (fileId: string, fileStream: Readable): Promise<BgRemoverResponse> => {
   return new Promise((resolve, reject) => {
@@ -22,7 +23,12 @@ export const removeBg = (fileId: string, fileStream: Readable): Promise<BgRemove
     axios.post(url, formData, config)
       .then((response) => response.data)
       .then(async (arrayBuffer) => {
-        fs.writeFile(`outputs/${fileId}.png`, arrayBuffer, (err) => {
+        const outputDir = 'outputs';
+        const filePath = path.join(outputDir, `${fileId}.png`);
+        if (!fs.existsSync(outputDir)) {
+          fs.mkdirSync(outputDir, { recursive: true });
+        }
+        fs.writeFile(filePath, arrayBuffer, (err) => {
           if (err) {
             console.error(err)
             reject('Failed to saving file.')
