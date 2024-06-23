@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import {BgRemoverResponse} from "../bg-remover-response";
 
+const TAG = "IMG.LY"
 export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverResponse> => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -18,6 +19,7 @@ export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverRe
         const blob = await removeBackground(fileTempPath)
         const buffer = Buffer.from(await blob.arrayBuffer());
         const dataURL = `data:image/png;base64,${buffer.toString("base64")}`;
+        console.log(TAG, dataURL)
         const filePath = path.join(outputDir, `${fileId}.png`);
         fs.writeFile(
           filePath,
@@ -25,7 +27,7 @@ export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverRe
           {encoding: 'base64'},
           (err) => {
             if (err) {
-              console.error('Failed saving file:', err);
+              console.error(TAG, 'Failed saving file:', err);
               reject('Failed to saving file.')
               return
             }
@@ -38,11 +40,11 @@ export const imgLy = (fileId: string, fileStream: Readable): Promise<BgRemoverRe
       });
 
       writeStream.on('error', (err) => {
-        console.error('Error saving file:', err);
+        console.error(TAG, 'Error saving file:', err);
         reject('Error saving file')
       });
     } catch (e) {
-      console.error(e)
+      console.error(TAG, e)
       reject('Failed to remove bg using img.ly')
     }
   })

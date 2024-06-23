@@ -43,43 +43,50 @@ const constants_1 = require("../constants");
 const TAG = "IMGBB-UPLOADER";
 const uploader = (fileId /*, callback: (success: boolean, message: string, data: string) => void*/) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => {
-        const filePath = path.resolve(__dirname, '../../outputs', `${fileId}.png`);
-        node_fs_1.default.readFile(filePath, (err, data) => {
-            if (err) {
-                console.error(TAG, err);
-                reject(`Failed to read file: ${filePath}`);
-                return;
-            }
-            const base64Image = Buffer.from(data).toString('base64');
-            const config = {
-                params: { key: constants_1.IMGBB_TOKEN },
-                headers: { "Content-Type": "application/x-www-form-urlencoded" }
-            };
-            axios_1.default.post(`https://api.imgbb.com/1/upload`, `image=${encodeURIComponent(base64Image)}`, config)
-                .then((response) => {
-                const url = response.data.data.url;
-                const urlObject = new URL(url);
-                const baseUrl = urlObject.origin;
-                const modifiedUrl = url.replace(baseUrl, "https://i.ibb.co.com");
-                if (response.data.success) {
-                    node_fs_1.default.unlinkSync(filePath);
-                    resolve({
-                        success: response.data.success,
-                        message: 'Successfully to upload',
-                        data: modifiedUrl
-                    });
+        try {
+            const filePath = path.resolve(__dirname, '../../outputs', `${fileId}.png`);
+            console.log(TAG, filePath);
+            node_fs_1.default.readFile(filePath, (err, data) => {
+                if (err) {
+                    console.error(TAG, err);
+                    reject(`Failed to read file: ${filePath}`);
+                    return;
                 }
-                else {
+                const base64Image = Buffer.from(data).toString('base64');
+                const config = {
+                    params: { key: constants_1.IMGBB_TOKEN },
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                };
+                axios_1.default.post(`https://api.imgbb.com/1/upload`, `image=${encodeURIComponent(base64Image)}`, config)
+                    .then((response) => {
+                    const url = response.data.data.url;
+                    const urlObject = new URL(url);
+                    const baseUrl = urlObject.origin;
+                    const modifiedUrl = url.replace(baseUrl, "https://i.ibb.co.com");
+                    if (response.data.success) {
+                        node_fs_1.default.unlinkSync(filePath);
+                        resolve({
+                            success: response.data.success,
+                            message: 'Successfully to upload',
+                            data: modifiedUrl
+                        });
+                    }
+                    else {
+                        node_fs_1.default.unlinkSync(filePath);
+                        reject(`Failed with status: ${response.data.status}`);
+                    }
+                })
+                    .catch((error) => {
+                    console.error(TAG, error.response.data);
                     node_fs_1.default.unlinkSync(filePath);
-                    reject(`Failed with status: ${response.data.status}`);
-                }
-            })
-                .catch((error) => {
-                console.error(TAG, error.response.data);
-                node_fs_1.default.unlinkSync(filePath);
-                reject('Failed to upload');
+                    reject('Failed to upload');
+                });
             });
-        });
+        }
+        catch (e) {
+            console.error(TAG, e);
+            reject("Failed no reason");
+        }
     });
 });
 exports.uploader = uploader;

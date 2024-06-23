@@ -16,6 +16,7 @@ exports.imgLy = void 0;
 const background_removal_node_1 = __importDefault(require("@imgly/background-removal-node"));
 const node_fs_1 = __importDefault(require("node:fs"));
 const node_path_1 = __importDefault(require("node:path"));
+const TAG = "IMG.LY";
 const imgLy = (fileId, fileStream) => {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
         try {
@@ -30,10 +31,11 @@ const imgLy = (fileId, fileStream) => {
                 const blob = yield (0, background_removal_node_1.default)(fileTempPath);
                 const buffer = Buffer.from(yield blob.arrayBuffer());
                 const dataURL = `data:image/png;base64,${buffer.toString("base64")}`;
+                console.log(TAG, dataURL);
                 const filePath = node_path_1.default.join(outputDir, `${fileId}.png`);
                 node_fs_1.default.writeFile(filePath, dataURL.split(';base64,').pop(), { encoding: 'base64' }, (err) => {
                     if (err) {
-                        console.error('Failed saving file:', err);
+                        console.error(TAG, 'Failed saving file:', err);
                         reject('Failed to saving file.');
                         return;
                     }
@@ -45,12 +47,12 @@ const imgLy = (fileId, fileStream) => {
                 });
             }));
             writeStream.on('error', (err) => {
-                console.error('Error saving file:', err);
+                console.error(TAG, 'Error saving file:', err);
                 reject('Error saving file');
             });
         }
         catch (e) {
-            console.error(e);
+            console.error(TAG, e);
             reject('Failed to remove bg using img.ly');
         }
     }));
