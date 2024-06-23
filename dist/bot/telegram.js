@@ -55,7 +55,6 @@ const telegram = () => __awaiter(void 0, void 0, void 0, function* () {
             const chatId = data.chat.id;
             try {
                 yield (0, imgLy_1.imgLy)(fileId, fileStream);
-                /*await removeBg(fileId, fileStream)*/
                 console.log("Start upload to cloud imgbb");
                 const uploadResponse = yield (0, uploader_1.uploader)(fileId);
                 console.log("Finish background remove");

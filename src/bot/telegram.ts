@@ -49,7 +49,6 @@ export const telegram = async () => {
 
       try {
         await imgLy(fileId, fileStream)
-        /*await removeBg(fileId, fileStream)*/
         console.log("Start upload to cloud imgbb")
         const uploadResponse = await uploader(fileId)
         console.log("Finish background remove")
