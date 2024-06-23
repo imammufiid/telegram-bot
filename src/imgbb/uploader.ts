@@ -34,13 +34,13 @@ export const uploader = async (fileId: string/*, callback: (success: boolean, me
         config
       )
         .then((response) => {
-          console.log(response.data)
+          const url = response.data.data.url.replace("https://i.ibb.co", "https://i.ibb.co.com")
           if (response.data.success) {
             fs.unlinkSync(filePath);
             resolve({
               success: response.data.success,
               message: 'Successfully to upload',
-              data: response.data.data.url
+              data: url
             });
           } else {
             fs.unlinkSync(filePath);
